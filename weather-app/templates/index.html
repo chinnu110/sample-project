@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather </title>
+</head>
+<body>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  $('#dsubmit').click(function(e) {
+
+  //selected option from radio button
+    e.preventDefault();
+    var zip = $('#v_search').val()
+    $.ajax({
+      url: "/get-weather",
+      type: "POST",
+      data: { 'zipcode': zip },
+      success: function(html) {
+        $('#result').html(html)
+      },
+      error: function(xhr,errmsg,err) {
+      console.log(errmsg)
+      $('#result').html("<h3 style='color: red'> Ajax Error!</h3>")
+      }
+  })// Ajax end
+ }); // Button Click
+
+}); // JQuery
+</script>
+
+<div  style='background:#254356'>
+
+</div>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Simple Weather App</h1>
+    </div>
+
+<h4> Please enter the City Zip code </h4>
+<p>exmaple: 10001, for other countries: zipcode,countrycode(8001,ch)</p>
+  <div id="search_block" class="panel-body">
+    <form role="form" class="form-horizontal" method="post" action="">
+        <div class="form-group">
+
+            <div class="col-xs-10 col-sm-8 col-md-4">
+                <input type="text" placeholder="Enter zip code" value="" name="v_search" id="v_search" class="form-control">
+            </div>
+
+            <div class="button-group col-xs-10 col-xs-offset-0 col-sm-8 col-sm-offset-2 col-md-3 col-md-offset-0">
+                <button id="dsubmit" class="btn btn-primary" value="search" name="search" type="submit">Get Weather</button>
+            </div>
+
+        </div>
+    </form>
+    </div>
+
+</div>
+<br>
+<div class="container">
+<div id='result'>
+
+</div>
+</div>
+
+</body>
+</html>

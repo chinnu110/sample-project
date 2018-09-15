@@ -1,0 +1,14 @@
+---
+- name: "Install ssh keys"
+  hosts: all
+  tasks:
+    - name: Check if usr_name is provided
+      fail:
+        msg: "Please provide the user name to copy the keys"
+      when: usr_name is undefined
+
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: "{{ usr_name }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
